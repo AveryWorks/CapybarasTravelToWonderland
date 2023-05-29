@@ -19,18 +19,17 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.MelonBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.event.ForgeEventFactory;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -42,7 +41,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class CapybaraEntity extends TamableAnimal implements IAnimatable {
 
-    private AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     private static final EntityDataAccessor<Boolean> SITTING =
             SynchedEntityData.defineId(CapybaraEntity.class, EntityDataSerializers.BOOLEAN);
@@ -208,7 +207,11 @@ public class CapybaraEntity extends TamableAnimal implements IAnimatable {
     }
 
     public boolean canBeLeashed(Player player) {
-        return false;
+        return super.canBeLeashed(player);
+    }
+
+    public Vec3 getLeashOffset() {
+        return new Vec3(0.0D, (double)(0.6F * this.getEyeHeight()), (double)(this.getBbWidth() * 0.4F));
     }
 
     @Override

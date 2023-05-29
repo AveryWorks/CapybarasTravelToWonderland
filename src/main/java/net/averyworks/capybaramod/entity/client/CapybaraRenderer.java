@@ -16,6 +16,7 @@ public class CapybaraRenderer extends GeoEntityRenderer<CapybaraEntity> {
         super(renderManager, new CapybaraModel());
         this.shadowRadius=0.3f;
 
+
     }
 
     @Override
