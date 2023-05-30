@@ -5,8 +5,11 @@ import net.averyworks.capybaramod.entity.ModEntityTypes;
 import net.averyworks.capybaramod.entity.client.CapybaraRenderer;
 import net.averyworks.capybaramod.item.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -37,9 +40,12 @@ public class CapybaraMod
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the setup method for modloading
         // Register the enqueueIMC method for modloading
-        eventBus.addListener(this::clientSetup);
+
         ModItems.register(eventBus);
         ModEntityTypes.register(eventBus);
+
+        eventBus.addListener(this::clientSetup);
+        eventBus.addListener(this::setup);
 
         GeckoLib.initialize();
         // Register ourselves for server and other game events we are interested in
@@ -55,6 +61,13 @@ public class CapybaraMod
     private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
+        event.enqueueWork(()->{
 
+            SpawnPlacements.register(ModEntityTypes.CAPYBARA.get(),
+                    SpawnPlacements.Type.ON_GROUND,
+                    Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    Animal::checkAnimalSpawnRules);
+
+        });
     }
 }

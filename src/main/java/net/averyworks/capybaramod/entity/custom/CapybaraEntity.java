@@ -120,7 +120,7 @@ public class CapybaraEntity extends TamableAnimal implements IAnimatable {
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.CAT_STRAY_AMBIENT;
+        return SoundEvents.DOLPHIN_AMBIENT;
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
